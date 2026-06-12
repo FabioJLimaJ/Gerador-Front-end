@@ -1,0 +1,32 @@
+{
+  "name": "terminal",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": "dist/index.js",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc",
+    "package": "pkg . --targets node18-win-x64 --output meu-cli"
+  },
+  "pkg": {
+    "assets": [
+      "node_modules/inquirer/**/*",
+      "node_modules/degit/**/*"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^25.9.2",
+    "pkg": "^5.8.1",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "degit": "^3.4.6",
+    "inquirer": "^14.0.2"
+  }
+}
