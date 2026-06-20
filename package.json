@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "degit": "^3.4.6",
-    "inquirer": "^14.0.2"
+    "inquirer": "^14.0.2",
+    "ora": "^9.4.0"
   }
 }

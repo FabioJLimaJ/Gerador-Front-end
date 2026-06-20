@@ -6,9 +6,23 @@ import path from 'path';
 import { presetsVue } from './presetsVue.js';
 import { presetsAngular } from './presetsAngular.js';
 import { presetsReact } from './presetsReact.js';
+import ora from 'ora';
 
+
+const BANNER = `
+    ______                 __       ______           __
+   / ____/________  ____  / /_     / ____/___  ____ / /
+  / /_  / ___/ __ \\/ __ \\/ __/    / __/ / __ \\/ __  / / 
+ / __/ / /  / /_/ / / / / /_     / /___/ / / / /_/ /_/  
+/_/   /_/   \\____/_/ /_/\\__/    /_____/_/ /_/\\__,_(_)   
+                                                        
+ -----------------------------------------------------
+`;
 
 async function escolherFramework() {
+
+    console.clear();
+    console.log(BANNER);
 
     const menu = await inquirer.prompt([
         {
@@ -19,12 +33,12 @@ async function escolherFramework() {
         {
             type: 'select',
             name: 'framework',
-            message: 'Qual framework voce deseja',
+            message: 'Qual framework você deseja?',
             choices: [
                 { name: 'Angular', value: 'angular' },
                 { name: 'React', value: 'react' },
-                { name: 'VueJs', value: 'vue' },
-                { name: 'Cancelar', value: 'Cancelar' }
+                { name: 'Vue', value: 'vue' },
+                { name: 'cancelar', value: 'Cancelar' }
             ],
             loop: false
         },
@@ -47,6 +61,10 @@ async function escolherFramework() {
 }
 
 export async function criarProjeto(framework: string, title: string) {
+    const spinner = ora({
+            text: `Buscando o preset`,
+            color: 'cyan'
+        }).start();
     try {
         const pathGithub = `https://github.com/FabioJLimaJ/Presets/${framework}`;
         if (await fetch(`https://api.github.com/repos/FabioJLimaJ/Presets/contents/${framework}`).then(res => res.ok)) {
@@ -57,9 +75,10 @@ export async function criarProjeto(framework: string, title: string) {
                 force: true,
             });
             await emitter.clone(pathDesktop);
-            console.log("Projeto criado com sucesso");
-        }else{
-            console.log("Preset não encontrado");
+            spinner.succeed("Projeto criado com sucesso");
+        } else {
+            spinner.fail("Preset não encontrado");
+            
         }
     } catch (error) {
         console.log("Erro ao criar o  projeto");
